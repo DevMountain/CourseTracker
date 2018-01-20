@@ -26,10 +26,10 @@ class ObjectiveTableViewCell: UITableViewCell {
     }
     
     @IBAction func masterSwitchValueChanged(sender: UISwitch) {
-        delegate?.masterySwitchValueChangeOnCell(self)
+        delegate?.masterySwitchValueChangeOnCell(cell: self)
     }
 
-    override func setSelected(selected: Bool, animated: Bool) {
+    override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state

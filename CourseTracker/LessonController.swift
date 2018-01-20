@@ -27,8 +27,8 @@ class LessonController {
     //DELETE -
     func deleteLesson(lessonToDelete: Lesson) -> Bool {
         if lessons.contains(lessonToDelete) {
-            if let index = lessons.indexOf(lessonToDelete) {
-                lessons.removeAtIndex(index)
+            if let index = lessons.index(of: lessonToDelete) {
+                lessons.remove(at: index)
                 return true
             } else {
                 return false
@@ -40,7 +40,7 @@ class LessonController {
     
     init() {
         
-        let jsonFilePath = NSBundle.mainBundle().pathForResource("lesson-data", ofType: "json")
+        let jsonFilePath = Bundle.main.path(forResource: "lesson-data", ofType: "json")
         var fileData: NSData?
         var lessonJSON: AnyObject?
         
@@ -51,17 +51,17 @@ class LessonController {
         guard let data = fileData else { return }
         
         do {
-            try lessonJSON = NSJSONSerialization.JSONObjectWithData(data, options: [])
+            try lessonJSON = JSONSerialization.jsonObject(with: data as Data, options: []) as AnyObject
         } catch let error as NSError {
             
-            print("ERROR -- Serializing JSON - RETURNING from \(__FUNCTION__) - Error message: \(error.localizedDescription)")
+            print("ERROR -- Serializing JSON - RETURNING from \(#function) - Error message: \(error.localizedDescription)")
         }
         
         guard let json = lessonJSON as? [[String : AnyObject]] else { return }
         
         for lessonDictionary in json {
             let newCourse = insertNewCourse()
-            newCourse.updateWithDictionary(lessonDictionary)
+            newCourse.updateWithDictionary(dictionary: lessonDictionary)
         }
         
     }
