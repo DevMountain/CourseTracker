@@ -25,7 +25,7 @@ class Lesson: Equatable {
         if let newObjectives = dictionary["objectives"] as? [[String : AnyObject]] {
             for newObjectiveDictionary in newObjectives {
                 let newObjective = Objective()
-                newObjective.updateWithDictionary(newObjectiveDictionary)
+                newObjective.updateWithDictionary(dictionary: newObjectiveDictionary)
                 objectives.append(newObjective)
             }
         }
