@@ -25,43 +25,46 @@ class LessonDetailTableViewController: UITableViewController, ObjectiveTableView
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
         
         
-        if let lesson = lesson {
-            title = lesson.name
-            descriptionLabel.text = lesson.description
-            studentNotesLabel.text = lesson.studentNotes
-        }
+        updateViews()
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
+    
+    // MARK: - updateViews
+    func updateViews() {
+        if let lesson = lesson {
+            title = lesson.name
+            descriptionLabel.text = lesson.description
+            studentNotesLabel.text = lesson.studentNotes
+        }
+    }
     // MARK: - Table view data source
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        if let lesson = lesson {
-            return lesson.objectives.count
-        } else {
-            return 0
-        }
+        guard let lesson = lesson else { return 0 }
+        return lesson.objectives.count
+       
+        
     }
 
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("objectiveCell", forIndexPath: indexPath) as! ObjectiveTableViewCell
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "objectiveCell", for: indexPath) as! ObjectiveTableViewCell
         
         cell.delegate = self
         
-        if let objective = lesson?.objectives[indexPath.row] {
+        if let objective =  lesson?.objectives[indexPath.row] {
             cell.objectiveLabel.text = objective.name
-            cell.masterySwitch.on = objective.userHasMastered
+            cell.masterySwitch.isOn = objective.userHasMastered 
         } else {
             cell.objectiveLabel.text = ""
-            cell.masterySwitch.on = false
+            cell.masterySwitch.isOn = false
         }
-
+        
         return cell
     }
     
@@ -69,11 +72,12 @@ class LessonDetailTableViewController: UITableViewController, ObjectiveTableView
     // MARK: - Objective Table View Cell Delegate
     
     func masterySwitchValueChangeOnCell(cell: ObjectiveTableViewCell) {
-        if let indexPath = tableView.indexPathForCell(cell), let lesson = lesson {
+        if let indexPath = tableView.indexPath(for: cell), let lesson = lesson {
             let objective = lesson.objectives[indexPath.row]
             
-            objective.userHasMastered = cell.masterySwitch.on
-        }
+            objective.userHasMastered = cell.masterySwitch.isOn
+            
+        } 
     }
     
     /*

@@ -10,6 +10,9 @@ import UIKit
 
 class LessonsTableViewController: UITableViewController {
 
+    // MARK: - Helper Prperties
+    private let numberofDaysInWeek = 5
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -28,47 +31,48 @@ class LessonsTableViewController: UITableViewController {
 
     // MARK: - Table view data source
     
-    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return "Week \(section + 1)"
     }
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    
+   override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         
-        let countDouble = Double(LessonController.sharedController.lessons.count)
-        let numberDaysInWeekDouble = 5.0
-        
-        let ceiling = ceil(countDouble / numberDaysInWeekDouble)
-        
-        let numberOfSections = Int(ceiling)
-        
-        return numberOfSections
+    let countDouble = Double(LessonController.sharedController.lessons.count)
+    let numberDaysInWeekDouble = 5.0
+    
+    let ceiling = ceil(countDouble / numberDaysInWeekDouble)
+    
+    let numberOfSections = Int(ceiling)
+    
+    return numberOfSections
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         
-        if LessonController.sharedController.lessons.count / 5 == section {
-            let remainder = LessonController.sharedController.lessons.count % 5
+        if LessonController.sharedController.lessons.count / numberofDaysInWeek == section {
+            let remainder = LessonController.sharedController.lessons.count % numberofDaysInWeek
             if remainder == 0 {
-                return 5
+                return numberofDaysInWeek
             } else {
                 return remainder
             }
         } else {
-            return 5
+            return numberofDaysInWeek
         }
     }
 
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("lessonCell", forIndexPath: indexPath) as! LessonTableViewCell
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "lessonCell", for: indexPath as IndexPath) as! LessonTableViewCell
         
         let index = indexPath.section * 5 + indexPath.row
         
         let lesson = LessonController.sharedController.lessons[index]
         
-        var dateString = "Week \(indexPath.section + 1)\n "
+        var dateString = ""
         
         switch indexPath.row {
         case 0:
@@ -129,11 +133,11 @@ class LessonsTableViewController: UITableViewController {
 
     
     // MARK: - Navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "toLessonDetail" {
-            let lessonDetailTableViewController = segue.destinationViewController as! LessonDetailTableViewController
+            let lessonDetailTableViewController = segue.destination as! LessonDetailTableViewController
             
-            if let cell = sender as? UITableViewCell, let indexPath = tableView.indexPathForCell(cell) {
+            if let cell = sender as? UITableViewCell, let indexPath = tableView.indexPath(for: cell) {
                 let index = indexPath.section * 5 + indexPath.row
                 let lessonToPass = LessonController.sharedController.lessons[index]
                 
@@ -141,6 +145,16 @@ class LessonsTableViewController: UITableViewController {
             }
         }
     }
-    
-
 }
+
+
+
+
+
+
+
+
+
+
+
+
