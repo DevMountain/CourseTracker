@@ -39,14 +39,14 @@ class LessonsTableViewController: UITableViewController {
    override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         
-        let countDouble = Double(LessonController.sharedController.lessons.count)
-        let numberDaysInWeekDouble = 5.0
-        
-        let ceiling = ceil(countDouble / numberDaysInWeekDouble)
-        
-        let numberOfSections = Int(ceiling)
-        
-        return numberOfSections
+    let countDouble = Double(LessonController.sharedController.lessons.count)
+    let numberDaysInWeekDouble = 5.0
+    
+    let ceiling = ceil(countDouble / numberDaysInWeekDouble)
+    
+    let numberOfSections = Int(ceiling)
+    
+    return numberOfSections
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

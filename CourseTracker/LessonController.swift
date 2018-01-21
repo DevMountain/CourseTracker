@@ -39,7 +39,7 @@ class LessonController {
     }
     
     init() {
-        
+      
         let jsonFilePath = Bundle.main.path(forResource: "lesson-data", ofType: "json")
         var fileData: NSData?
         var lessonJSON: AnyObject?
@@ -47,17 +47,15 @@ class LessonController {
         //Parse JSON File
         guard let filePath = jsonFilePath else { return }
         
+       // fileData = NSData(contentsOfFile: filePath)
         fileData = NSData(contentsOfFile: filePath)
         guard let data = fileData else { return }
-        
         do {
             try lessonJSON = JSONSerialization.jsonObject(with: data as Data, options: []) as AnyObject
-        } catch let error as NSError {
-            
-            print("ERROR -- Serializing JSON - RETURNING from \(#function) - Error message: \(error.localizedDescription)")
+        } catch {
+            print("error: failed to find file \(#function) with an error of \(error.localizedDescription)")
         }
-        
-        guard let json = lessonJSON as? [[String : AnyObject]] else { return }
+        guard let json = lessonJSON  as? [[String: AnyObject]] else { return }
         
         for lessonDictionary in json {
             let newCourse = insertNewCourse()

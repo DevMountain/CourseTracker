@@ -10,15 +10,15 @@ import Foundation
 
 class Objective {
     
-    var id = ""
-    var name = ""
+    var id = String()
+    var name = String()
     var userHasMastered = false
     
     func updateWithDictionary(dictionary: [String : AnyObject]) {
-
+        
         name = dictionary["studentCan"] as? String ?? ""
         
-        if let newIDFloat = dictionary["objectiveID"] as? Float {
+        if let newIDFloat = dictionary["objectiveID"] as? Float  {
             let numberFormatter = NumberFormatter()
             numberFormatter.numberStyle = .decimal
             numberFormatter.roundingMode = .halfUp
@@ -27,6 +27,7 @@ class Objective {
             
             id = numberFormatter.string(from: NSNumber(value: newIDFloat)) ?? ""
         }
+        
     }
     
 }

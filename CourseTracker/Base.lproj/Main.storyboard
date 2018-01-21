@@ -132,7 +132,7 @@
                                                 <constraint firstAttribute="width" constant="49" id="kgI-rF-tZw"/>
                                             </constraints>
                                             <connections>
-                                                <action selector="masterSwitchValueChanged:" destination="rvT-2y-aIU" eventType="valueChanged" id="wZl-to-Nmi"/>
+                                                <action selector="masterSwitchValueChangedWithSender:" destination="rvT-2y-aIU" eventType="valueChanged" id="pAu-NZ-WMc"/>
                                             </connections>
                                         </switch>
                                     </subviews>

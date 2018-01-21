@@ -25,24 +25,28 @@ class LessonDetailTableViewController: UITableViewController, ObjectiveTableView
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
         
         
-        if let lesson = lesson {
-            title = lesson.name
-            descriptionLabel.text = lesson.description
-            studentNotesLabel.text = lesson.studentNotes
-        }
+        updateViews()
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
+    
+    // MARK: - updateViews
+    func updateViews() {
+        if let lesson = lesson {
+            title = lesson.name
+            descriptionLabel.text = lesson.description
+            studentNotesLabel.text = lesson.studentNotes
+        }
+    }
     // MARK: - Table view data source
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         guard let lesson = lesson else { return 0 }
-            return lesson.objectives.count
+        return lesson.objectives.count
        
         
     }
@@ -53,14 +57,14 @@ class LessonDetailTableViewController: UITableViewController, ObjectiveTableView
         
         cell.delegate = self
         
-        if let objective = lesson?.objectives[indexPath.row] {
+        if let objective =  lesson?.objectives[indexPath.row] {
             cell.objectiveLabel.text = objective.name
-            cell.masterySwitch.isOn = objective.userHasMastered
+            cell.masterySwitch.isOn = objective.userHasMastered 
         } else {
             cell.objectiveLabel.text = ""
             cell.masterySwitch.isOn = false
         }
-
+        
         return cell
     }
     
@@ -72,7 +76,8 @@ class LessonDetailTableViewController: UITableViewController, ObjectiveTableView
             let objective = lesson.objectives[indexPath.row]
             
             objective.userHasMastered = cell.masterySwitch.isOn
-        }
+            
+        } 
     }
     
     /*
